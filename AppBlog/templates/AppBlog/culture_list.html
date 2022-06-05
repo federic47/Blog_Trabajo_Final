@@ -1,0 +1,37 @@
+{% extends "AppBlog/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+
+<h2 style="color:white">Listando Noticias de Cultura</h2>
+
+{% endblock %}
+
+{% block cuerpo %}
+
+{% for cult in object_list %}
+
+<li>{{cult}}</li>
+
+<button>
+    <a href="{% url 'culture_detalle' cult.id %}">DETALLE</a>
+</button>
+
+<button>
+    <a href="{% url 'culture_editar' cult.id %}">EDITAR</a>
+</button>
+
+<button>
+    <a href="{% url 'culture_borrar' cult.id %}">BORRAR</a>
+</button>
+<br>
+{% endfor %}
+<br>
+
+ <button>
+    <a href="{% url 'culture_crear' %}">CREAR</a>
+</button>
+
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends "AppBlog/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+
+<h2 style="color:white">Agregando Avatar</h2>
+<h2 style ="color: white">{{mensaje}} </h2>
+
+{% endblock %}
+
+{% block cuerpo %}
+
+<h2>AGREGANDO AVATAR DE {{usuario}}</h2>
+
+<form action="{% url 'agregarAvatar'  %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+    <table>
+        {{ formulario.as_table}}
+    </table>
+    <br>
+    <input style="background-color:  #23ECE0 " type="submit" value="Agregar">
+
+</form>
+
+{% endblock%}

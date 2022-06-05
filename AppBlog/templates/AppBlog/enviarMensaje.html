@@ -1,0 +1,23 @@
+{% extends "AppBlog/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+
+<h2 style="color:white">Envios de mensajes</h2>
+<h2 style ="color: white">{{mensaje}} </h2>
+
+
+{% endblock %}
+
+{% block cuerpo %}
+
+<h2 style="color: red">Complete los datos por favor para enviar Mensaje</h2>
+<br>
+<form method="post">{% csrf_token %}
+    {{ formulario.as_p}}
+    <input type="submit" value="ENVIAR">
+
+</form>
+
+{% endblock%}
