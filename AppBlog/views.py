@@ -131,14 +131,6 @@ def buscarMensajes(request):
 
 
 
-
-
-
-
-
-
-
-
 #------------------------------Defino la vista de formulario Culture ------------------------------------------------------------------------------#
 
 def newsFormulario(request):
