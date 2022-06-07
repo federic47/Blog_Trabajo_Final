@@ -7,3 +7,5 @@ admin.site.register(Sports)
 admin.site.register(Economy)
 admin.site.register(Avatar)
 admin.site.register(Mensaje)
+admin.site.register(MensajeChat)
+

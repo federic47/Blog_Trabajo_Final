@@ -1,3 +1,4 @@
+from email import message
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
@@ -60,5 +61,13 @@ class MensajeForm(forms.Form):
     usuario= forms.CharField(max_length=50)
     asunto = forms.CharField(max_length=50)
     campo= forms.CharField(max_length=250)
+
+class MensajeChatForm(forms.Form):
+    message= forms.CharField(max_length=150)
+
+    class meta:
+        model= MensajeChat
+        fields=['sender','receiver','message','is_read']
+    
     
 

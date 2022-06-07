@@ -1,0 +1,21 @@
+{% extends "AppBlog/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+
+<h2 style="color:white">Página principal Del chat en vivo</h2>
+
+{% endblock %}
+
+{% block cuerpo %}
+
+{% for user in users %}
+
+<br>
+<a class="btn btn-primary" href="{% url 'chat_completo' request.user.id user.id %}">Chatear con: {{user}}</a>
+<br>
+{% endfor %}
+
+
+{% endblock%}

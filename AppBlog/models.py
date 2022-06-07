@@ -50,6 +50,7 @@ class Avatar(models.Model):
     avatar= models.ImageField(upload_to='Avatar', blank=True, null=True)
 
 
+#-----------------------------Mensaje asincronico---------------------
 class Mensaje(models.Model):
     usuario = models.CharField(max_length=50)
     asunto = models.CharField(max_length=50)
@@ -57,3 +58,17 @@ class Mensaje(models.Model):
     
     def __str__(self):
         return self.usuario 
+
+#-------------------------------Mensaje sincronico---------------------
+class MensajeChat(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    message = models.CharField(max_length=1200)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.message
+
+    class Meta:
+        ordering = ('timestamp',)

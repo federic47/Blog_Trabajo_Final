@@ -5,7 +5,7 @@ from django .views.generic.edit import CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from .models import *
-from AppBlog.forms import NewsFormulario,UserRegistrationForm, UserEditForm,AvatarForm,MensajeForm
+from AppBlog.forms import MensajeChatForm, NewsFormulario,UserRegistrationForm, UserEditForm,AvatarForm,MensajeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
@@ -96,11 +96,11 @@ def agregarAvatar(request):
                 avatarViejo.delete()
                 avatar=Avatar(user=user, avatar=formulario.cleaned_data['avatar'])
                 avatar.save()
-                return render(request, 'AppBlog/inicio.html', {'usuario':user, 'mensaje':'AVATAR AGREGADO EXITOSAMENTE','avatar':avatar})
+                return render(request, 'AppBlog/inicio.html', {'usuario':user, 'mensaje':'AVATAR AGREGADO EXITOSAMENTE', 'avatar':avatar})
             else:
                 avatar=Avatar(user=user, avatar=formulario.cleaned_data['avatar'])
                 avatar.save()
-                return render(request, 'AppBlog/inicio.html', {'usuario':user, 'mensaje':'AVATAR AGREGADO EXITOSAMENTE', 'avatar':avatar})
+                return render(request, 'AppBlog/inicio.html', {'usuario':user, 'mensaje':'AVATAR AGREGADO EXITOSAMENTE','avatar':avatar})
     else:
         formulario=AvatarForm()
     return render(request, 'AppBlog/agregarAvatar.html', {'formulario':formulario, 'usuario':user})
@@ -127,6 +127,14 @@ def buscarMensajes(request):
     usuario = str(usuario)
     mensajes= Mensaje.objects.all()
     return render(request,'AppBlog/resultadosMensajes.html',{'mensajes': mensajes,'usuario':usuario})
+
+
+
+
+
+
+
+
 
 
 
@@ -180,7 +188,41 @@ def EconomyFormulario(request):
     else:
         miFormulario= EconomyFormulario()
     return render(request,'AppBlog/newsFormulario.html', {'miFormulario': miFormulario})
-      
+
+#-----------------------------------Defino vista de chat--------------------------------------#
+def chat(request):
+        return render(request, 'AppBlog/chat.html',
+                      {'users': User.objects.exclude(username=request.user.username)})
+
+#------------------------------------Vista de chat detalle-------------------------------------#
+def chat_completo(request, sender=None, receiver=None):
+    if request.method == 'GET':
+        messages = MensajeChat.objects.filter(sender_id=sender,receiver_id=receiver,is_read=False)
+        for message in messages:
+            message.is_read=True
+            message.save()
+        formulario=MensajeChatForm()
+        return render(request, 'AppBlog/chat_completo.html', {'users': User.objects.exclude(username=request.user.username),
+        'formulario':formulario,
+        'sender':sender,
+        'receiver':receiver,
+        'messages': MensajeChat.objects.filter(sender_id=sender, receiver_id=receiver) |
+        MensajeChat.objects.filter(sender_id=receiver,receiver_id=sender)})
+
+    else:
+        formulario= MensajeChatForm()
+        informacion=MensajeChatForm(request.POST)
+        if informacion.is_valid():
+            informacion_limpia = informacion.cleaned_data.get('message')
+            message=MensajeChat(sender_id=sender, receiver_id=receiver, message=informacion_limpia)
+            message.save()
+            return render (request, 'AppBlog/chat_completo.html', {'users': User.objects.exclude(username=request.user.username),
+            'formulario':formulario,
+            'sender':sender,
+            'receiver':receiver,
+            'messages': MensajeChat.objects.filter(sender_id=sender, receiver_id=receiver) |
+            MensajeChat.objects.filter(sender_id=receiver,receiver_id=sender)})
+
        
 #*************************      CLASES BASADAS EN VISTAS     ***********************************************************************#
 #***********************************************************************************************************************************#
