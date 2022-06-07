@@ -18,8 +18,6 @@ from django.contrib.auth.decorators import login_required
 def inicio(request):
         return render(request, 'AppBlog/inicio.html')
     
-
-
         
 #---------Definimos la views de About-----------------------------------------------------------------------------------#
 def about(request):
@@ -127,17 +125,6 @@ def buscarMensajes(request):
     usuario = str(usuario)
     mensajes= Mensaje.objects.all()
     return render(request,'AppBlog/resultadosMensajes.html',{'mensajes': mensajes,'usuario':usuario})
-
-
-
-
-
-
-
-
-
-
-
 
 #------------------------------Defino la vista de formulario Culture ------------------------------------------------------------------------------#
 

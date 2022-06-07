@@ -10,11 +10,14 @@
 
 {% block cuerpo %}
 
-
+{% if user.is_superuser %}
 <form method="post">{% csrf_token %}
     Estas seguro que deseas borrar la noticia Sobre Cultura "{{ object }}"?
     <input type="submit" value="SI">
 </form>
+{% else %}
+<h1>Usted de no es el usuario administrador</h1>
+{% endif%}
 <p>
     <a href="{% url 'inicio' %}">REGRESAR</a>
 </p>
